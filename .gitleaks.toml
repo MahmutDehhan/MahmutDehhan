@@ -1,0 +1,29 @@
+title = "gitleaks config (MahmutDehhan)"
+
+# WHY THIS FILE EXISTS, AND WHY IT ALLOWLISTS NOTHING.
+#
+# estate-policy.yml requires every `tier: config` repo to ship a .gitleaks.toml. Not because this
+# repo has findings -- it scans clean today -- but so that the place to record a triaged false
+# positive already exists, next to the code, before anyone needs it.
+#
+# That gap was not hypothetical. m1d0_static carried two `generic-api-key` findings for months;
+# both were localStorage key names, the identical constant had already been triaged in a sibling
+# repo, and the fix simply never propagated -- partly because there was nowhere obvious to put it.
+#
+# There is deliberately NO [allowlist] block. gitleaks rejects an allowlist that declares no
+# commits/paths/regexes/stopwords ("must contain at least one check"), so an "empty allowlist" is
+# not a thing you can write -- the absence of the section IS the statement that nothing here has
+# been suppressed. When you add one:
+#   * scope it to the VALUE (a regex on the literal), never to a path. A path-wide exemption also
+#     hides a real credential added to that file later, which is the failure mode an allowlist is
+#     most likely to cause.
+#   * never by commit SHA. A squash-merge rewrites it and the allowlist silently goes stale.
+#   * say WHY, with evidence, in a comment above it.
+#
+# Two consumers read this file: this repo's own CI (gitleaks auto-discovery) and the nightly
+# estate-secret-sweep in scripts.git, which extracts it from a bare clone with
+# `git show HEAD:.gitleaks.toml`. One file, two surfaces -- so a suppression here is not a
+# CI-only blind spot.
+
+[extend]
+useDefault = true
