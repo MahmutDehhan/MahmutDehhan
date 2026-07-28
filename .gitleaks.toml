@@ -10,8 +10,10 @@ title = "gitleaks config (MahmutDehhan)"
 # both were localStorage key names, the identical constant had already been triaged in a sibling
 # repo, and the fix simply never propagated -- partly because there was nowhere obvious to put it.
 #
-# An EMPTY [allowlist] is a statement, not a placeholder: nothing in this repo has been suppressed.
-# If you add an entry:
+# There is deliberately NO [allowlist] block. gitleaks rejects an allowlist that declares no
+# commits/paths/regexes/stopwords ("must contain at least one check"), so an "empty allowlist" is
+# not a thing you can write -- the absence of the section IS the statement that nothing here has
+# been suppressed. When you add one:
 #   * scope it to the VALUE (a regex on the literal), never to a path. A path-wide exemption also
 #     hides a real credential added to that file later, which is the failure mode an allowlist is
 #     most likely to cause.
@@ -25,8 +27,3 @@ title = "gitleaks config (MahmutDehhan)"
 
 [extend]
 useDefault = true
-
-[allowlist]
-description = "no exemptions: this repo scans clean, and that is the claim being made"
-paths = []
-regexes = []
