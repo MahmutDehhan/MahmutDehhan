@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150" role="img" aria-label="Miss Dantella website: missdantella.com"><title>Miss Dantella website: missdantella.com</title><defs>
+<linearGradient id="mislalwmbg" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#f7f7fa"/><stop offset="1" stop-color="#eceef6"/></linearGradient>
+<radialGradient id="mislalwmglow" cx=".8" cy=".48" r=".55"><stop offset="0" stop-color="#9aa2dc" stop-opacity=".35"/><stop offset="1" stop-color="#9aa2dc" stop-opacity="0"/></radialGradient>
+<radialGradient id="mislalwmglow2" cx=".04" cy="0" r=".6"><stop offset="0" stop-color="#c9a65a" stop-opacity=".09"/><stop offset="1" stop-color="#c9a65a" stop-opacity="0"/></radialGradient>
+<linearGradient id="mislalwmmetal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dea6"/><stop offset=".28" stop-color="#c9a65a"/><stop offset=".55" stop-color="#7f5f22"/><stop offset=".78" stop-color="#e8cd8a"/><stop offset="1" stop-color="#a8843f"/></linearGradient>
+<linearGradient id="mislalwmmetalh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7f5f22"/><stop offset=".35" stop-color="#f3dea6"/><stop offset=".65" stop-color="#c9a65a"/><stop offset="1" stop-color="#7f5f22"/></linearGradient>
+<linearGradient id="mislalwmmetalv" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7f5f22" stop-opacity=".2"/><stop offset=".5" stop-color="#c9a65a"/><stop offset="1" stop-color="#f3dea6" stop-opacity=".2"/></linearGradient>
+<linearGradient id="mislalwmsheen" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="mislalwmspec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="mislalwmglint" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="mislalwmfade" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<radialGradient id="mislalwmpool" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#c9a65a" stop-opacity=".22"/><stop offset="1" stop-color="#c9a65a" stop-opacity="0"/></radialGradient>
+
+<filter id="mislalwmblur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+<clipPath id="mislalwmframe"><path d="M0,0 H300 V150 H0 V0 Z"/></clipPath>
+</defs><g clip-path="url(#mislalwmframe)"><rect width="300" height="150" fill="url(#mislalwmbg)"/><rect width="300" height="150" fill="url(#mislalwmglow)" opacity=".6"/><g transform="translate(118.0 43.0) scale(2.667)"><g fill="none" stroke="#a7822f" stroke-width="1.5"><circle cx="12" cy="12" r="10.5"/><ellipse cx="12" cy="12" rx="4.6" ry="10.5"/><path d="M1.5,12 H22.5 M3.5,6.5 H20.5 M3.5,17.5 H20.5"/></g></g><rect x="0" y="26" width="1" height="99" fill="#10143a" opacity=".14"/><rect width="300" height="1" fill="#10143a" opacity=".10"/><rect y="149" width="300" height="1" fill="#10143a" opacity=".10"/></g></svg>
