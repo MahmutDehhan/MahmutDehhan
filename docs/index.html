@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Woven Stack</title>
+<meta name="description" content="Business first. Technology second. AI third. The three layers of how M1D0 Technologies and Dahhan Enterprises work, in 3D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-top: #0e1236; --bg-bot: #05061a; --glow: rgba(44, 53, 150, .55);
+  --fg: #f4f0e8; --fg2: #dcdff0; --muted: #9399c6; --gold: #d9b56e;
+  --card: rgba(13, 17, 57, .72); --line: rgba(195, 200, 238, .18); --chip: rgba(43, 51, 132, .35);
+  --serif: "Instrument Serif", Georgia, serif; --sans: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg-top: #f7f7fa; --bg-bot: #e4e7f3; --glow: rgba(154, 162, 220, .45);
+    --fg: #10143a; --fg2: #262b58; --muted: #5f648c; --gold: #a7822f;
+    --card: rgba(255, 255, 255, .78); --line: rgba(43, 51, 132, .16); --chip: rgba(174, 180, 222, .35);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg-top: #f7f7fa; --bg-bot: #e4e7f3; --glow: rgba(154, 162, 220, .45);
+  --fg: #10143a; --fg2: #262b58; --muted: #5f648c; --gold: #a7822f;
+  --card: rgba(255, 255, 255, .78); --line: rgba(43, 51, 132, .16); --chip: rgba(174, 180, 222, .35);
+  color-scheme: light;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body {
+  background: radial-gradient(60% 55% at 42% 46%, var(--glow), transparent 70%), linear-gradient(180deg, var(--bg-top), var(--bg-bot));
+  background-color: var(--bg-bot); color: var(--fg); font: 400 16px/1.5 var(--sans);
+  overflow: hidden; -webkit-font-smoothing: antialiased;
+}
+#stage { position: fixed; inset: 0; touch-action: none; cursor: grab; }
+#stage.drag { cursor: grabbing; } #stage.hot { cursor: pointer; }
+#stage canvas { display: block; width: 100%; height: 100%; }
+.ui { position: fixed; inset: 0; pointer-events: none; display: grid; grid-template-columns: 1fr minmax(320px, 400px); grid-template-rows: auto 1fr auto; gap: 16px; padding: 32px 40px; }
+.ui > * { pointer-events: auto; }
+.top { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.kicker { font: 500 11px/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+h1 { font: 400 clamp(30px, 4.2vw, 56px)/1.02 var(--serif); letter-spacing: -.01em; margin-top: 12px; max-width: 13ch; }
+.back { font: 500 13px var(--sans); color: var(--fg2); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; background: var(--card); backdrop-filter: blur(8px); white-space: nowrap; }
+.back:hover { border-color: var(--gold); }
+.panel { grid-column: 2; grid-row: 2 / 4; align-self: end; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.panel h2 { font: 600 30px/1.15 var(--sans); letter-spacing: -.01em; margin: 10px 0 10px; }
+.panel p { color: var(--fg2); font-size: 15.5px; }
+.items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding: 0; list-style: none; }
+.items li { font: 500 13px var(--sans); color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+.panel .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 10px; vertical-align: 1px; }
+.controls { grid-column: 1; grid-row: 3; align-self: end; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls button { font: 500 13px var(--sans); color: var(--fg2); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; cursor: pointer; backdrop-filter: blur(8px); }
+.controls button[aria-pressed="true"] { color: var(--fg); border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.controls button:focus-visible, .back:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.hint { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
+.fallback { position: fixed; inset: 0; display: grid; place-items: center; color: var(--muted); font: 500 13px var(--mono); pointer-events: none; }
+@media (max-width: 760px) {
+  .ui { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; padding: 16px; gap: 10px; }
+  .top { flex-direction: column-reverse; gap: 12px; }
+  h1 { font-size: 30px; }
+  .panel { grid-column: 1; grid-row: 4; padding: 18px; border-radius: 16px; }
+  .panel h2 { font-size: 24px; }
+  .panel p { font-size: 14.5px; }
+  .items { margin-top: 12px; gap: 6px; } .items li { font-size: 12px; padding: 5px 10px; }
+  .controls { grid-row: 3; }
+  .controls button { padding: 8px 13px; }
+  .hint { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="stage" aria-hidden="true"></div>
+<div class="ui">
+  <div class="top">
+    <div>
+      <div class="kicker">M1D0 Technologies · The woven stack</div>
+      <h1>Business first. Technology second. AI third.</h1>
+    </div>
+    <a class="back" href="https://github.com/MahmutDehhan">← Back to the profile</a>
+  </div>
+  <div class="controls" role="group" aria-label="Layers">
+    <button type="button" data-layer="-1" aria-pressed="true">All layers</button>
+    <button type="button" data-layer="0" aria-pressed="false">Business</button>
+    <button type="button" data-layer="1" aria-pressed="false">Technology</button>
+    <button type="button" data-layer="2" aria-pressed="false">AI</button>
+    <button type="button" id="explode" aria-pressed="false">Open the stack</button>
+    <span class="hint">Drag to turn · tap a layer</span>
+  </div>
+  <section class="panel" aria-live="polite">
+    <div class="kicker" id="p-kicker"></div>
+    <h2 id="p-title"></h2>
+    <p id="p-text"></p>
+    <ul class="items" id="p-items"></ul>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  var INFO = [
+    { kicker: "Overview", title: "Three woven layers",
+      text: "Business first. Technology second. AI third. Each layer rests on the one below it. Tap a layer to see what it holds.",
+      items: [] },
+    { kicker: "First · Business", title: "Defines what matters", sw: "#4f5ab6",
+      text: "Business decisions remain human-led. Every system and every use of AI starts from how the business really runs.",
+      items: ["Business value & objectives", "Operating models", "Process ownership", "Customer & supplier needs"] },
+    { kicker: "Second · Technology", title: "Makes it possible", sw: "#9aa3dc",
+      text: "Technology provides the operational foundation: the systems that connect products, suppliers, production and customers.",
+      items: ["Systems architecture", "Integrated platforms & data", "Infrastructure & security", "Digital commerce channels"] },
+    { kicker: "Third · AI", title: "Accelerates execution", sw: "#e2c27e",
+      text: "Governed AI accelerates execution, under human direction and accountability. It works on top of systems that already work.",
+      items: ["Research & analysis", "Automation & agents", "Implementation & verification", "Governed execution"] }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  if (/embed/.test(location.search)) { var bk = document.querySelector(".back"); if (bk) bk.hidden = true; }
+  function show(i) {
+    var d = INFO[i + 1];
+    $("p-kicker").innerHTML = (d.sw ? '<span class="swatch" style="background:' + d.sw + '"></span>' : "") + d.kicker;
+    $("p-title").textContent = d.title; $("p-text").textContent = d.text;
+    $("p-items").hidden = !d.items.length; $("p-items").innerHTML = d.items.map(function (t) { return "<li>" + t.replace(/&/g, "&amp;") + "</li>"; }).join("");
+    document.querySelectorAll("[data-layer]").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.layer === i)); });
+  }
+  var state = { sel: -1, open: false };
+  var api = null;
+  function select(i) { state.sel = i; if (i >= 0) setOpen(true, true); show(i); }
+  function setOpen(v, keep) { state.open = v; $("explode").setAttribute("aria-pressed", String(v)); $("explode").textContent = v ? "Close the stack" : "Open the stack"; if (!v && !keep) { state.sel = -1; show(-1); } }
+  document.querySelectorAll("[data-layer]").forEach(function (b) { b.addEventListener("click", function () { select(+b.dataset.layer); }); });
+  $("explode").addEventListener("click", function () { setOpen(!state.open); });
+  document.addEventListener("keydown", function (e) { if (e.key >= "0" && e.key <= "3") select(+e.key - 1); });
+  show(-1);
+
+  if (!window.THREE) { var f = document.createElement("div"); f.className = "fallback"; f.textContent = "3D needs WebGL and a network connection."; document.body.appendChild(f); return; }
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var stage = $("stage");
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
+  catch (e) { var g = document.createElement("div"); g.className = "fallback"; g.textContent = "3D needs WebGL."; document.body.appendChild(g); return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15;
+  stage.appendChild(renderer.domElement);
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(30, 1, .1, 200);
+
+  // Studio environment for the metal: a painted gradient with soft light panels, prefiltered once.
+  (function () {
+    try {
+      var c = document.createElement("canvas"); c.width = 512; c.height = 256; var x = c.getContext("2d");
+      var g = x.createLinearGradient(0, 0, 0, 256); g.addColorStop(0, "#8d93c4"); g.addColorStop(.45, "#3a417e"); g.addColorStop(.55, "#141a46"); g.addColorStop(1, "#05061a");
+      x.fillStyle = g; x.fillRect(0, 0, 512, 256);
+      [[120, 50, 90, "#fff3dc"], [330, 70, 60, "#ffe2b0"], [450, 110, 40, "#c3c8ee"]].forEach(function (l) {
+        var r = x.createRadialGradient(l[0], l[1], 0, l[0], l[1], l[2]); r.addColorStop(0, l[3]); r.addColorStop(1, "rgba(255,255,255,0)");
+        x.fillStyle = r; x.fillRect(l[0] - l[2], l[1] - l[2], l[2] * 2, l[2] * 2);
+      });
+      var t = new THREE.CanvasTexture(c); t.mapping = THREE.EquirectangularReflectionMapping; t.encoding = THREE.sRGBEncoding;
+      var pm = new THREE.PMREMGenerator(renderer);
+      if (!/noenv/.test(location.search)) scene.environment = pm.fromEquirectangular(t).texture;
+      pm.dispose(); t.dispose();
+    } catch (e) {}
+  })();
+  scene.add(new THREE.HemisphereLight(0xc3c8ee, 0x05061a, .55));
+  var key = new THREE.DirectionalLight(0xfff1d6, 1.6); key.position.set(6, 12, 8); scene.add(key);
+  var rim = new THREE.DirectionalLight(0x7f88cc, .9); rim.position.set(-9, 4, -6); scene.add(rim);
+
+  var S = 10;                       // slab size
+  var LAYERS = [
+    { n: 5, core: 1.0, relief: .38, coreC: 0x1a2060, warp: 0x4f5ab6, weft: 0x2b3384, metal: .15, rough: .55 },
+    { n: 7, core: .8, relief: .32, coreC: 0x1b2262, warp: 0xc3c8ee, weft: 0x7f88cc, metal: .2, rough: .45 },
+    { n: 9, core: .7, relief: .26, coreC: 0x4a3418, warp: 0xe8c47a, weft: 0xa97f3a, metal: .9, rough: .3 }
+  ];
+  var root = new THREE.Group(); scene.add(root);
+  var groups = [], mats = [];
+  var GAP = 2.3, OPEN = 3.6;
+  LAYERS.forEach(function (L, i) {
+    var g = new THREE.Group(); g.userData.layer = i;
+    var mk = function (c, emiss) { return new THREE.MeshStandardMaterial({ color: new THREE.Color(c).convertSRGBToLinear(), metalness: L.metal, roughness: L.rough, transparent: true, opacity: 1, emissive: emiss || 0x000000 }); };
+    var mCore = mk(L.coreC), mWarp = mk(L.warp), mWeft = mk(L.weft);
+    mats.push([mCore, mWarp, mWeft]);
+    var core = new THREE.Mesh(new THREE.BoxGeometry(S, L.core, S), mCore); core.position.y = L.core / 2; g.add(core);
+    var step = S / L.n, band = step * .78, gWarp = new THREE.BoxGeometry(band, L.relief, step * .98), gWeft = new THREE.BoxGeometry(step * .98, L.relief * .72, band);
+    for (var a = 0; a < L.n; a++) for (var b = 0; b < L.n; b++) {
+      var warp = (a + b) % 2 === 0;
+      var m = new THREE.Mesh(warp ? gWarp : gWeft, warp ? mWarp : mWeft);
+      m.position.set(-S / 2 + step * (a + .5), L.core + (warp ? L.relief : L.relief * .72) / 2, -S / 2 + step * (b + .5));
+      g.add(m);
+    }
+    root.add(g); groups.push(g);
+  });
+  // Gold threads at the corners tie the layers together.
+  var threadMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(0xe2c27e).convertSRGBToLinear(), metalness: 1, roughness: .3, transparent: true });
+  var threads = [];
+  [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) {
+    for (var k = 0; k < 2; k++) {
+      var t = new THREE.Mesh(new THREE.CylinderGeometry(.045, .045, 1, 8), threadMat);
+      t.userData = { cx: c[0] * (S / 2 - .15), cz: c[1] * (S / 2 - .15), k: k }; root.add(t); threads.push(t);
+    }
+  });
+  // Soft pool of light under the stack.
+  var cv = document.createElement("canvas"); cv.width = cv.height = 128; var cx = cv.getContext("2d");
+  var gr = cx.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, "rgba(226,194,126,.28)"); gr.addColorStop(1, "rgba(226,194,126,0)");
+  cx.fillStyle = gr; cx.fillRect(0, 0, 128, 128);
+  var pool = new THREE.Mesh(new THREE.PlaneGeometry(26, 26), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true, depthWrite: false }));
+  pool.rotation.x = -Math.PI / 2; pool.position.y = -.6; root.add(pool);
+
+  // Interaction: drag to turn (with inertia), tap a layer to open it.
+  var yaw = .65, pitch = .52, vy = 0, dragging = false, moved = 0, px = 0, py = 0, idle = 0;
+  var ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), hover = -1;
+  function pick(e) {
+    var r = renderer.domElement.getBoundingClientRect();
+    ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    var hit = ray.intersectObjects(groups, true)[0];
+    if (!hit) return -1;
+    var o = hit.object; while (o && o.userData.layer === undefined) o = o.parent; return o ? o.userData.layer : -1;
+  }
+  stage.addEventListener("pointerdown", function (e) { dragging = true; moved = 0; px = e.clientX; py = e.clientY; stage.classList.add("drag"); stage.setPointerCapture(e.pointerId); });
+  stage.addEventListener("pointermove", function (e) {
+    if (dragging) {
+      var dx = e.clientX - px, dy = e.clientY - py; moved += Math.abs(dx) + Math.abs(dy); px = e.clientX; py = e.clientY;
+      vy = dx * .006; yaw += vy; pitch = Math.max(.12, Math.min(1.2, pitch + dy * .004)); idle = 0;
+    } else { hover = pick(e); stage.classList.toggle("hot", hover >= 0); }
+  });
+  stage.addEventListener("pointerup", function (e) {
+    dragging = false; stage.classList.remove("drag");
+    if (moved < 6) { var l = pick(e); select(l); }
+  });
+  stage.addEventListener("wheel", function (e) { e.preventDefault(); dist = Math.max(30, Math.min(80, dist + e.deltaY * .02)); }, { passive: false });
+
+  var dist = 45, aim = new THREE.Vector3(0, 3.2, 0);
+  function resize() {
+    var w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h;
+    var narrow = w < 760; camera.setViewOffset(w, h, narrow ? 0 : 220, narrow ? h * .1 : -h * .04, w, h);
+    camera.fov = narrow ? 42 : 30; dist = narrow ? 64 : 45; camera.updateProjectionMatrix();
+  }
+  addEventListener("resize", resize); resize();
+
+  var ys = [0, GAP, GAP * 2], lift = [0, 0, 0], clock = new THREE.Clock();
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  (function loop() {
+    var dt = Math.min(clock.getDelta(), .05), k = 1 - Math.pow(.0015, dt);
+    idle += dt;
+    if (!dragging) { vy *= .92; yaw += vy; if (!reduce && idle > 2.5 && Math.abs(vy) < .002) yaw += dt * .18; }
+    camera.position.set(Math.sin(yaw) * Math.cos(pitch) * dist, aim.y + Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
+    camera.lookAt(aim);
+    var gap = state.open ? OPEN : GAP;
+    aim.y = lerp(aim.y, state.open ? 5 : 3.2, reduce ? 1 : k);
+    groups.forEach(function (g, i) {
+      var target = i * gap + (state.sel === i ? .9 : 0) + (state.open && state.sel >= 0 && i > state.sel ? .6 : 0);
+      ys[i] = reduce ? target : lerp(ys[i], target, k); g.position.y = ys[i];
+      var on = state.sel < 0 || state.sel === i, op = on ? 1 : .18;
+      var hot = hover === i && state.sel !== i ? .08 : 0;
+      mats[i].forEach(function (m) { m.opacity = reduce ? op : lerp(m.opacity, op, k); m.depthWrite = m.opacity > .9; m.emissive.setScalar(hot); });
+    });
+    threads.forEach(function (t) {
+      var a = groups[t.userData.k], b = groups[t.userData.k + 1];
+      var y0 = a.position.y + LAYERS[t.userData.k].core, y1 = b.position.y;
+      t.scale.y = Math.max(.01, y1 - y0); t.position.set(t.userData.cx, (y0 + y1) / 2, t.userData.cz);
+    });
+    threadMat.opacity = state.sel < 0 ? 1 : .25;
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
