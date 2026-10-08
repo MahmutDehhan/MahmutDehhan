@@ -5,9 +5,8 @@
 
 <p align="center">
   <a href="https://www.linkedin.com/in/mahmutdehhan/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-mahmutdehhan-d9b56e?style=flat-square&logo=linkedin&logoColor=white&labelColor=0e1236" /></a>
-  <a href="https://www.m1d0.com"><img alt="Website" src="https://img.shields.io/badge/web-m1d0.com-2b3384?style=flat-square&labelColor=0e1236" /></a>
-  <a href="mailto:contact@m1d0.com"><img alt="Email" src="https://img.shields.io/badge/email-contact%40m1d0.com-2b3384?style=flat-square&labelColor=0e1236" /></a>
-  <img alt="Operating since 2015" src="https://img.shields.io/badge/operating%20since-2015-c3c8ee?style=flat-square&labelColor=0e1236" />
+  <a href="https://www.dahhanenterprises.com"><img alt="Website" src="https://img.shields.io/badge/web-dahhanenterprises.com-2b3384?style=flat-square&labelColor=0e1236" /></a>
+  <a href="mailto:mahmutdehhan@dahhanenterprises.com"><img alt="Email" src="https://img.shields.io/badge/email-mahmutdehhan%40dahhanenterprises.com-2b3384?style=flat-square&labelColor=0e1236" /></a>
 </p>
 
 ## Mahmut Dehhan
@@ -114,8 +113,8 @@ Six divisions, one accountable team, from the first decision through to producti
 
 ## Get in touch
 
-- ✉️ **contact@m1d0.com**
+- ✉️ **mahmutdehhan@dahhanenterprises.com**
 - 💼 **[LinkedIn](https://www.linkedin.com/in/mahmutdehhan/)**
-- 🌐 **[m1d0.com](https://www.m1d0.com)** · **[dahhanenterprises.com](https://www.dahhanenterprises.com)** · **[dahhanindustries.com](https://www.dahhanindustries.com)** · **[missdantella.com](https://www.missdantella.com)**
+- 🌐 **[dahhanenterprises.com](https://www.dahhanenterprises.com)** · **[m1d0.com](https://www.m1d0.com)** · **[dahhanindustries.com](https://www.dahhanindustries.com)** · **[missdantella.com](https://www.missdantella.com)**
 
 <sub>© 2026 Dahhan Enterprises LLC — M1D0 Technologies, Dahhan Industries, Miss Dantella and affiliated brands. All rights reserved.</sub>
