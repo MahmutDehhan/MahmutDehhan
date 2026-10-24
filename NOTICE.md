@@ -1,7 +1,8 @@
 # NOTICE
 
-This is a public **documentation and showcase** repository for M1D0 Technologies
-and the Dahhan Enterprises group.
+This is a public **documentation and showcase** repository for Mahmut Dehhan,
+founder of M1D0 Technologies, connected through Dahhan Enterprises with
+Dahhan Industries and Miss Dantella.
 
 It contains no private source code, internal infrastructure code, credentials,
 secrets, customer data, or proprietary implementation details.
