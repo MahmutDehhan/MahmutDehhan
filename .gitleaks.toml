@@ -1,0 +1,5 @@
+title = "gitleaks config (MahmutDehhan)"
+
+# Default gitleaks rules, with no suppressions.
+[extend]
+useDefault = true
